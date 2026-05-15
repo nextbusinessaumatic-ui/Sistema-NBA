@@ -115,9 +115,6 @@ def chat():
         elif "curso" in pergunta:
             resposta = f"Seu curso é {aluno['Curso']}"
 
-        elif "matrícula ativa" in pergunta:
-            resposta = f"sua matrícula {aluno['Matricula Ativa']} está ativa."
-        
         else:
             resposta = "Desculpe, não entendi sua pergunta."
 
