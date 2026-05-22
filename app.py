@@ -7,7 +7,6 @@ app.secret_key = "chave_secreta"
 # Carregar a planilha
 df = pd.read_excel("alunos_matricula.xlsx")
 
-# Converter para lista de dicionários
 # Carregar a planilha
 df = pd.read_excel("alunos_matricula.xlsx")
 
