@@ -8,7 +8,11 @@ app.secret_key = "chave_secreta"
 df = pd.read_excel("alunos_matricula.xlsx")
 
 # Converter para lista de dicionários
-alunos = df.to_dict(orient="records")
+# Carregar a planilha
+df = pd.read_excel("alunos_matricula.xlsx")
+
+# Converter tudo para texto
+alunos = df.astype(str).to_dict(orient="records")
 
 
 # 🔐 ROTA DE LOGIN
@@ -93,6 +97,7 @@ def chat():
 
     aluno = session["aluno"]
     resposta = ""
+    print(aluno)
 
     if request.method == "POST":
         pergunta = request.form["pergunta"].lower()
