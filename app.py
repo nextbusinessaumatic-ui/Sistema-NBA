@@ -134,9 +134,18 @@ def chat():
         else:
             resposta = "Desculpe, não entendi sua pergunta."
 
-        
+    return render_template("chat.html", resposta=resposta)
 
 
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+    return f'''
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,51 +160,51 @@ def chat():
         }}
 
         .chat-container {{
-            width: 400px;
+            width: 400 px;
             background: white;
-            margin-top: 50px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-            padding: 20px;
+            margin-top: 50 px;
+            border-radius: 10 px;
+            box-shadow: 0 px 0 px 10 px rgba(0,0,0,0.2);
+            padding: 20 px;
         }}
 
         .header {{
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 20 px;
         }}
 
         .messages {{
-            height: 200px;
+            height: 200 px;
             overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            border: 1 px solid #ccc;
+            padding: 10 px;
+            border-radius: 5 px;
+            margin-bottom: 10 px;
         }}
 
         .user {{
             text-align: right;
-            margin: 5px;
+            margin: 5 px;
             color: blue;
         }}
 
         .bot {{
             text-align: left;
-            margin: 5px;
+            margin: 5 px;
             color: green;
         }}
 
         input {{
             width: 70%;
-            padding: 10px;
+            padding: 10 px;
         }}
 
         button {{
-            padding: 10px;
+            padding: 10 px;
             background: #4facfe;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 5 px;
         }}
 
         button:hover {{
@@ -205,7 +214,7 @@ def chat():
         a {{
             display: block;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 10 px;
         }}
     </style>
 </head>
@@ -214,7 +223,7 @@ def chat():
 
 <div class="chat-container">
     <div class="header">
-        <h3>🎓 {aluno["Nome"]}</h3>
+        <h3> {aluno["Nome"]}</h3>
     </div>
 
     <div class="messages">
@@ -270,42 +279,42 @@ def boas_vindas():
             body {{
                 margin: 0;
                 font-family: 'Segoe UI', Arial, sans-serif;
-                background: linear-gradient(to right, #4facfe, #00f2fe);
+                background: linear-gradient(to right, "#4facfe, #00f2fe");
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
+                height: 100 vh;
             }}
 
             .box {{
                 background: white;
-                padding: 40px;
-                border-radius: 20px;
+                padding: 40 px;
+                border-radius: 20 px;
                 text-align: center;
-                box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
-                width: 350px;
+                box-shadow: 0 px 10 px 30 px rgba(0,0,0,0.2);
+                width: 350 px;
             }}
 
             h2 {{
                 color: #333;
-                margin-bottom: 10px;
+                margin-bottom: 10 px;
             }}
 
             p {{
                 color: #666;
-                margin-bottom: 25px;
+                margin-bottom: 25 px;
             }}
 
             button {{
                 width: 100%;
-                padding: 14px;
-                margin-top: 10px;
+                padding: 14 px;
+                margin-top: 10 px;
                 border: none;
-                border-radius: 10px;
-                font-size: 16px;
+                border-radius: 10 px;
+                font-size: 16 px;
                 color: white;
                 cursor: pointer;
-                transition: 0.3s;
+                transition: 0.3 s;
             }}
 
             button:hover {{
@@ -335,21 +344,21 @@ def boas_vindas():
 
         <div class="box">
 
-            <h2>🎓 Bem-vindo, {aluno["Nome"]}!</h2>
+            <h2> Bem-vindo, {aluno["Nome"]}!</h2>
 
             <p>Escolha uma opção abaixo:</p>
 
             <!-- BOTÃO TOUR -->
             <a href="/tour">
                 <button class="tour">
-                    🎬 Fazer Tour
+                     Fazer Tour
                 </button>
             </a>
 
             <!-- BOTÃO CHAT -->
             <a href="/chat">
                 <button class="chat">
-                    🤖 Ir direto para o ChatBot
+                     Ir direto para o ChatBot
                 </button>
             </a>
 
