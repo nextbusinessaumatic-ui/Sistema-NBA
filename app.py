@@ -98,32 +98,41 @@ def chat():
     resposta = ""
     print(aluno)
 
-    if request.method == "POST":
-        pergunta = request.form["pergunta"].lower()
+if request.method == "POST":
 
-        if "pendência" in pergunta:
-            resposta = f"Sua pendência é: {aluno.get['Pendências']}"
-        
-        elif "sala" in pergunta:
-            resposta = f"Sua aula é na sala {aluno.get['Sala Atual']}"
-        
-        elif "horário" in pergunta:
-            resposta = f"Seu horário de aula é {aluno.get['Horário Aula']}"
-        
-        elif "professor" in pergunta:
-            resposta = f"Seu professor é {aluno.get['Professor']}"
-        
-        elif "mensalidade" in pergunta:
-            resposta = f"Status da mensalidade: {aluno.get['Mensalidade']}"
-        
-        elif "curso" in pergunta:
-            resposta = f"Seu curso é {aluno.get['Curso']}"
+    pergunta = request.form.get("pergunta", "").lower()
 
-        elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f"status da matrícula: {aluno.get['Matrícula Ativa']}"
-            
-        else:
-            resposta = "Desculpe, não entendi sua pergunta."
+    pendencias = str(aluno.get("Pendências", "Nenhuma"))
+    sala = str(aluno.get("Sala Atual", "Não informada"))
+    horario = str(aluno.get("Horário Aula", "Não informado"))
+    professor = str(aluno.get("Professor", "Não informado"))
+    mensalidade = str(aluno.get("Mensalidade", "Não informado"))
+    curso = str(aluno.get("Curso", "Não informado"))
+    matricula_ativa = str(aluno.get("Matrícula Ativa", "Não informado"))
+
+    if "pendência" in pergunta or "pendencia" in pergunta:
+        resposta = f"Sua pendência é: {pendencias}"
+
+    elif "sala" in pergunta:
+        resposta = f"Sua aula é na sala {sala}"
+
+    elif "horário" in pergunta or "horario" in pergunta:
+        resposta = f"Seu horário de aula é {horario}"
+
+    elif "professor" in pergunta:
+        resposta = f"Seu professor é {professor}"
+
+    elif "mensalidade" in pergunta:
+        resposta = f"Status da mensalidade: {mensalidade}"
+
+    elif "curso" in pergunta:
+        resposta = f"Seu curso é {curso}"
+
+    elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
+        resposta = f"Status da matrícula: {matricula_ativa}"
+
+    else:
+        resposta = "Desculpe, não entendi sua pergunta."
 
     return f'''
 <!DOCTYPE html>
