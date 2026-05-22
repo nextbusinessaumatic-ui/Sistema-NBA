@@ -29,7 +29,7 @@ def login():
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sistema </title>
+    <title>Sistema NBA</title>
     <style>
         body {
             font-family: Arial;
