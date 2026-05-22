@@ -98,25 +98,25 @@ def chat():
         pergunta = request.form["pergunta"].lower()
 
         if "pendência" in pergunta:
-            resposta = f"Sua pendência é: {aluno['Pendências']}"
+            resposta = f"Sua pendência é: {aluno.get['Pendências']}"
         
         elif "sala" in pergunta:
-            resposta = f"Sua aula é na sala {aluno['Sala Atual']}"
+            resposta = f"Sua aula é na sala {aluno.get['Sala Atual']}"
         
         elif "horário" in pergunta:
-            resposta = f"Seu horário de aula é {aluno['Horário Aula']}"
+            resposta = f"Seu horário de aula é {aluno.get['Horário Aula']}"
         
         elif "professor" in pergunta:
-            resposta = f"Seu professor é {aluno['Professor']}"
+            resposta = f"Seu professor é {aluno.get['Professor']}"
         
         elif "mensalidade" in pergunta:
-            resposta = f"Status da mensalidade: {aluno['Mensalidade']}"
+            resposta = f"Status da mensalidade: {aluno.get['Mensalidade']}"
         
         elif "curso" in pergunta:
-            resposta = f"Seu curso é {aluno['Curso']}"
+            resposta = f"Seu curso é {aluno.get['Curso']}"
 
         elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f"status da matrícula: {aluno['Matrícula Ativa']}"
+            resposta = f"status da matrícula: {aluno.get['Matrícula Ativa']}"
             
         else:
             resposta = "Desculpe, não entendi sua pergunta."
