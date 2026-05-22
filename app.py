@@ -111,25 +111,32 @@ def chat():
         matricula_ativa = str(aluno.get("Matrícula Ativa", "Não informado"))
 
         if "pendência" in pergunta or "pendencia" in pergunta:
-            resposta = f"Sua pendência é: {pendencias}"
+            resposta = f
+            "Sua pendência é: {pendencias}"
 
         elif "sala" in pergunta:
-            resposta = f"Sua aula é na sala {sala}"
+            resposta = f
+            "Sua aula é na sala {sala}"
 
         elif "horário" in pergunta or "horario" in pergunta:
-            resposta = f"Seu horário de aula é {horario}"
+            resposta = f
+            "Seu horário de aula é {horario}"
 
         elif "professor" in pergunta:
-            resposta = f"Seu professor é {professor}"
+            resposta = f
+            "Seu professor é {professor}"
 
         elif "mensalidade" in pergunta:
-            resposta = f"Status da mensalidade: {mensalidade}"
+            resposta = f
+            "Status da mensalidade: {mensalidade}"
 
         elif "curso" in pergunta:
-            resposta = f"Seu curso é {curso}"
+            resposta = f
+            "Seu curso é {curso}"
 
         elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f"Status da matrícula: {matricula_ativa}"
+            resposta = f
+            "Status da matrícula: {matricula_ativa}"
 
         else:
             resposta = "Desculpe, não entendi sua pergunta."
@@ -145,7 +152,8 @@ def home():
 if __name__ == "__main__":
     app.run(debug=True)
 
-    return f'''
+    return f
+    '''
 <!DOCTYPE html>
 <html>
 <head>
