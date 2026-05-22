@@ -29,7 +29,7 @@ def login():
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Sistema NBA</title>
     <style>
         body {
             font-family: Arial;
@@ -98,25 +98,25 @@ def chat():
         pergunta = request.form["pergunta"].lower()
 
         if "pendência" in pergunta:
-            resposta = f"Sua pendência é: {aluno.get['Pendências']}"
+            resposta = f"Sua pendência é: {aluno['Pendências']}"
         
         elif "sala" in pergunta:
-            resposta = f"Sua aula é na sala {aluno.get['Sala Atual']}"
+            resposta = f"Sua aula é na sala {aluno['Sala Atual']}"
         
         elif "horário" in pergunta:
-            resposta = f"Seu horário de aula é {aluno.get['Horário Aula']}"
+            resposta = f"Seu horário de aula é {aluno['Horário Aula']}"
         
         elif "professor" in pergunta:
-            resposta = f"Seu professor é {aluno.get['Professor']}"
+            resposta = f"Seu professor é {aluno['Professor']}"
         
         elif "mensalidade" in pergunta:
-            resposta = f"Status da mensalidade: {aluno.get['Mensalidade']}"
+            resposta = f"Status da mensalidade: {aluno['Mensalidade']}"
         
         elif "curso" in pergunta:
-            resposta = f"Seu curso é {aluno.get['Curso']}"
+            resposta = f"Seu curso é {aluno['Curso']}"
 
         elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f"status da matrícula: {aluno.get['Matrícula Ativa']}"
+            resposta = f"status da matrícula: {aluno['Matrícula Ativa']}"
             
         else:
             resposta = "Desculpe, não entendi sua pergunta."
