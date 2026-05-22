@@ -7,11 +7,8 @@ app.secret_key = "chave_secreta"
 # Carregar a planilha
 df = pd.read_excel("alunos_matricula.xlsx")
 
-# Carregar a planilha
-df = pd.read_excel("alunos_matricula.xlsx")
-
-# Converter tudo para texto
-alunos = df.astype(str).to_dict(orient="records")
+# Converter para lista de dicionários
+alunos = df.to_dict(orient="records")
 
 
 # 🔐 ROTA DE LOGIN
@@ -96,64 +93,35 @@ def chat():
 
     aluno = session["aluno"]
     resposta = ""
-    print(aluno)
 
     if request.method == "POST":
+        pergunta = request.form["pergunta"].lower()
 
-        pergunta = request.form.get("pergunta", "").lower()
-
-        pendencias = str(aluno.get("Pendências", "Nenhuma"))
-        sala = str(aluno.get("Sala Atual", "Não informada"))
-        horario = str(aluno.get("Horário Aula", "Não informado"))
-        professor = str(aluno.get("Professor", "Não informado"))
-        mensalidade = str(aluno.get("Mensalidade", "Não informado"))
-        curso = str(aluno.get("Curso", "Não informado"))
-        matricula_ativa = str(aluno.get("Matrícula Ativa", "Não informado"))
-
-        if "pendência" in pergunta or "pendencia" in pergunta:
-            resposta = f
-            "Sua pendência é: {pendencias}"
-
+        if "pendência" in pergunta:
+            resposta = f"Sua pendência é: {aluno.get['Pendências']}"
+        
         elif "sala" in pergunta:
-            resposta = f
-            "Sua aula é na sala {sala}"
-
-        elif "horário" in pergunta or "horario" in pergunta:
-            resposta = f
-            "Seu horário de aula é {horario}"
-
+            resposta = f"Sua aula é na sala {aluno.get['Sala Atual']}"
+        
+        elif "horário" in pergunta:
+            resposta = f"Seu horário de aula é {aluno.get['Horário Aula']}"
+        
         elif "professor" in pergunta:
-            resposta = f
-            "Seu professor é {professor}"
-
+            resposta = f"Seu professor é {aluno.get['Professor']}"
+        
         elif "mensalidade" in pergunta:
-            resposta = f
-            "Status da mensalidade: {mensalidade}"
-
+            resposta = f"Status da mensalidade: {aluno.get['Mensalidade']}"
+        
         elif "curso" in pergunta:
-            resposta = f
-            "Seu curso é {curso}"
+            resposta = f"Seu curso é {aluno.get['Curso']}"
 
         elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f
-            "Status da matrícula: {matricula_ativa}"
-
+            resposta = f"status da matrícula: {aluno.get['Matrícula Ativa']}"
+            
         else:
             resposta = "Desculpe, não entendi sua pergunta."
 
-    return render_template("chat.html", resposta=resposta)
-
-
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-    return f
-    '''
+    return f'''
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,51 +136,51 @@ if __name__ == "__main__":
         }}
 
         .chat-container {{
-            width: 400 px;
+            width: 400px;
             background: white;
-            margin-top: 50 px;
-            border-radius: 10 px;
-            box-shadow: 0 px 0 px 10 px rgba(0,0,0,0.2);
-            padding: 20 px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            padding: 20px;
         }}
 
         .header {{
             text-align: center;
-            margin-bottom: 20 px;
+            margin-bottom: 20px;
         }}
 
         .messages {{
-            height: 200 px;
+            height: 200px;
             overflow-y: auto;
-            border: 1 px solid #ccc;
-            padding: 10 px;
-            border-radius: 5 px;
-            margin-bottom: 10 px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }}
 
         .user {{
             text-align: right;
-            margin: 5 px;
+            margin: 5px;
             color: blue;
         }}
 
         .bot {{
             text-align: left;
-            margin: 5 px;
+            margin: 5px;
             color: green;
         }}
 
         input {{
             width: 70%;
-            padding: 10 px;
+            padding: 10px;
         }}
 
         button {{
-            padding: 10 px;
+            padding: 10px;
             background: #4facfe;
             color: white;
             border: none;
-            border-radius: 5 px;
+            border-radius: 5px;
         }}
 
         button:hover {{
@@ -222,7 +190,7 @@ if __name__ == "__main__":
         a {{
             display: block;
             text-align: center;
-            margin-top: 10 px;
+            margin-top: 10px;
         }}
     </style>
 </head>
@@ -231,7 +199,7 @@ if __name__ == "__main__":
 
 <div class="chat-container">
     <div class="header">
-        <h3> {aluno["Nome"]}</h3>
+        <h3>🎓 {aluno["Nome"]}</h3>
     </div>
 
     <div class="messages">
@@ -287,42 +255,42 @@ def boas_vindas():
             body {{
                 margin: 0;
                 font-family: 'Segoe UI', Arial, sans-serif;
-                background: linear-gradient(to right, "#4facfe, #00f2fe");
+                background: linear-gradient(to right, #4facfe, #00f2fe);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100 vh;
+                height: 100vh;
             }}
 
             .box {{
                 background: white;
-                padding: 40 px;
-                border-radius: 20 px;
+                padding: 40px;
+                border-radius: 20px;
                 text-align: center;
-                box-shadow: 0 px 10 px 30 px rgba(0,0,0,0.2);
-                width: 350 px;
+                box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+                width: 350px;
             }}
 
             h2 {{
                 color: #333;
-                margin-bottom: 10 px;
+                margin-bottom: 10px;
             }}
 
             p {{
                 color: #666;
-                margin-bottom: 25 px;
+                margin-bottom: 25px;
             }}
 
             button {{
                 width: 100%;
-                padding: 14 px;
-                margin-top: 10 px;
+                padding: 14px;
+                margin-top: 10px;
                 border: none;
-                border-radius: 10 px;
-                font-size: 16 px;
+                border-radius: 10px;
+                font-size: 16px;
                 color: white;
                 cursor: pointer;
-                transition: 0.3 s;
+                transition: 0.3s;
             }}
 
             button:hover {{
@@ -352,21 +320,21 @@ def boas_vindas():
 
         <div class="box">
 
-            <h2> Bem-vindo, {aluno["Nome"]}!</h2>
+            <h2>🎓 Bem-vindo, {aluno["Nome"]}!</h2>
 
             <p>Escolha uma opção abaixo:</p>
 
             <!-- BOTÃO TOUR -->
             <a href="/tour">
                 <button class="tour">
-                     Fazer Tour
+                    🎬 Fazer Tour
                 </button>
             </a>
 
             <!-- BOTÃO CHAT -->
             <a href="/chat">
                 <button class="chat">
-                     Ir direto para o ChatBot
+                    🤖 Ir direto para o ChatBot
                 </button>
             </a>
 
