@@ -134,6 +134,7 @@ def chat():
         else:
             resposta = "Desculpe, não entendi sua pergunta."
 
+        
 
 
 <!DOCTYPE html>
