@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tour · Campus · FAMIPE</title>
@@ -224,9 +225,173 @@
       <div class="area ti"         role="button" tabindex="0" data-label="T.I"                aria-label="T.I"                onclick="abrir('ti')"          onkeydown="keyOpen(event,'ti')"></div>
       <div class="area tesouraria" role="button" tabindex="0" data-label="Tesouraria"         aria-label="Tesouraria"         onclick="abrir('tesouraria')"  onkeydown="keyOpen(event,'tesouraria')"></div>
       <div class="area npj"        role="button" tabindex="0" data-label="Recepção do NPJ"    aria-label="Recepção do NPJ"    onclick="abrir('npj')"         onkeydown="keyOpen(event,'npj')"></div>
+=======
+<meta charset="UTF-8">
+<title>Mapa Interativo</title>
+<style>
+
+body {
+    margin: 0;
+    background: #2c5364;
+    font-family: Arial;
+}
+
+.mapa {
+    position: relative;
+    width: 80%;
+    max-width: 735px;
+    margin: auto;
+}
+
+.planta {
+    display: block;
+    width: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.area {
+    position: absolute;
+    cursor: pointer;
+    z-index: 3;
+    box-sizing: border-box;
+}
+
+.area:hover {
+    outline: 2px solid cyan;
+    background: rgba(0, 255, 255, 0.18);
+}
+
+.area::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 12px;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.area:hover::after { opacity: 1; }
+
+/* ============================================================
+   POSIÇÕES — calculadas por análise de pixel nas screenshots
+   ============================================================ */
+.secretaria  { left:  2%; top: 30%; width: 22%; height:  4%; }
+.descanso    { left: 72.6%; top: 1.5%; width: 15%; height: 14.8%; }
+.biblioteca  { left: 32%; top: 18%; width: 13%; height: 22%; }
+.refeitorio  { left: 58.6%; top: 22%; width: 12.8%; height: 17.3%; }
+.sala002     { left: 72.3%; top: 21.8%; width: 9%; height: 17.8%; }
+.sala001     { left: 58.6%; top: 44.3%; width: 12.7%; height: 17.7%; }
+.atletica    { left: 72.7%; top: 45.5%; width: 9.5%; height: 17%; }
+.gabinete    { left: 32%; top: 55.6%; width: 26%; height: 6.5%; }
+.central     { left: 14.2%; top: 57.7%; width: 10.8%; height: 9.7%; }
+.ti          { left: 44%; top: 71%; width: 11%; height: 11%; }
+.tesouraria  { left: 14%; top: 73%; width: 11%; height: 10%; }
+.npj         { left: 87.1%; top: 83.7%; width: 11.7%; height: 15.2%; }
+
+.chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    background: #00c6ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+.chatbot-btn:hover { background: #0099cc; transform: scale(1.05); }
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.hidden { display: none; }
+
+.modal-content {
+    background: white;
+    color: #222;
+    padding: 28px 24px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.modal-content h2 { margin-top: 0; color: #2c5364; }
+.modal-content button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: #00c6ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.modal-content button:hover { background: #0099cc; }
+
+</style>
+</head>
+<body>
+
+<a href="/chat">
+    <button class="chatbot-btn">🤖 Ir para o ChatBot</button>
+</a>
+
+<div class="mapa">
+    <img src="/static/planta.png" class="planta">
+    <img src="/static/cores.png"  class="overlay">
+
+    <div class="area secretaria" data-label="Secretaria"           onclick="abrir('secretaria')"></div>
+    <div class="area descanso"   data-label="Sala de Descanso"     onclick="abrir('descanso')"></div>
+    <div class="area biblioteca" data-label="Biblioteca"           onclick="abrir('biblioteca')"></div>
+    <div class="area refeitorio" data-label="Refeitório"           onclick="abrir('refeitorio')"></div>
+    <div class="area sala002"    data-label="Sala 002"             onclick="abrir('sala002')"></div>
+    <div class="area sala001"    data-label="Sala 001"             onclick="abrir('sala001')"></div>
+    <div class="area atletica"   data-label="Atlética / FAMIPE"    onclick="abrir('atletica')"></div>
+    <div class="area gabinete"   data-label="Gabinete"             onclick="abrir('gabinete')"></div>
+    <div class="area central"    data-label="Central de Estágio"   onclick="abrir('central')"></div>
+    <div class="area ti"         data-label="T.I"                  onclick="abrir('ti')"></div>
+    <div class="area tesouraria" data-label="Tesouraria"           onclick="abrir('tesouraria')"></div>
+    <div class="area npj"        data-label="Recepção do NPJ"      onclick="abrir('npj')"></div>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <h2 id="titulo"></h2>
+        <p  id="descricao"></p>
+        <button onclick="fechar()">Fechar</button>
+>>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
     </div>
   </div>
 
+<<<<<<< HEAD
   <div class="legend" aria-hidden="true">
     <strong>Dica</strong>
     Clique em qualquer área<br>para ver mais informações
@@ -290,5 +455,38 @@
       if (e.key === 'Escape') fechar();
     });
   </script>
+=======
+<script>
+const dados = {
+    secretaria: ["Secretaria",                "Atendimento ao aluno, documentos e matrículas."],
+    descanso:   ["Sala de Descanso",          "Relaxamento e descanso entre aulas."],
+    biblioteca: ["Biblioteca Acadêmica",      "Acervo de livros, estudos e pesquisas."],
+    refeitorio: ["Refeitório",                "Alimentação e lanche."],
+    sala002:    ["Sala 002",                  "Sala de aulas."],
+    sala001:    ["Sala 001",                  "Sala de aulas."],
+    atletica:   ["Atlética / FAMIPE Wordspace","Eventos, esportes e coworking."],
+    gabinete:   ["Gabinete dos Professores",  "Atendimento e orientação com professores."],
+    central:    ["Central de Estágio",        "Suporte e orientação para estágios."],
+    ti:         ["T.I",                       "Suporte técnico e infraestrutura."],
+    tesouraria: ["Tesouraria",                "Financeiro, pagamentos e boletos."],
+    npj:        ["Recepção do NPJ",           "Núcleo de Prática Jurídica."],
+};
+
+function abrir(local) {
+    document.getElementById("titulo").innerText    = dados[local][0];
+    document.getElementById("descricao").innerText = dados[local][1];
+    document.getElementById("modal").classList.remove("hidden");
+}
+
+function fechar() {
+    document.getElementById("modal").classList.add("hidden");
+}
+
+document.getElementById("modal").addEventListener("click", e => {
+    if (e.target === this) fechar();
+});
+</script>
+
+>>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
 </body>
 </html>

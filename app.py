@@ -90,6 +90,7 @@ def login():
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<<<<<<< HEAD
   <title>Login · Portal do Aluno · FAMIPE</title>
   {BASE_HEAD}
   <style>
@@ -108,6 +109,18 @@ def login():
       z-index: 0;
     }}
     .login-card {{ width: 100%; max-width: 400px; position: relative; z-index: 1; }}
+=======
+    <title>Sistema NBA</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+>>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
 
     .login-header {{
       background: linear-gradient(160deg, #6d1d20, #8f2629);
@@ -358,6 +371,7 @@ def chat():
 
     historico = session.get("historico", [])
 
+<<<<<<< HEAD
     def render_msgs():
         html = ""
         for msg in historico:
@@ -366,6 +380,13 @@ def chat():
             else:
                 html += f'<div class="msg-row bot-row"><div class="bubble-avatar">🤖</div><div class="bubble bot-bubble">{msg["content"]}</div></div>'
         return html or '<div class="empty-state">👋 Olá! Pergunte sobre sua matrícula, sala, horário, pendências ou mensalidade.</div>'
+=======
+        elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
+            resposta = f"status da matrícula: {aluno['Matrícula Ativa']}"
+            
+        else:
+            resposta = "Desculpe, não entendi sua pergunta."
+>>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
