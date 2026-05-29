@@ -1,189 +1,294 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Mapa Interativo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour · Campus · FAMIPE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-body {
-    margin: 0;
-    background: #2c5364;
-    font-family: Arial;
-}
+    :root {
+      --maroon:    #6d1d20;
+      --maroon-dk: #5a1619;
+      --maroon-lt: #f5e8e8;
+      --gray:      #a59c97;
+      --gray-lt:   #e8e4e1;
+      --cream:     #f5f3f1;
+      --white:     #ffffff;
+      --text:      #2a1a1a;
+      --muted:     #7a706d;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+    }
 
-/* CONTAINER */
-.mapa {
-    position: relative;
-    width: 80%;
-    max-width: 735px;
-    margin: auto;
-    z-index: 1;
-}
+    body {
+      font-family: var(--font-body);
+      background: #1c0a0b;
+      min-height: 100vh;
+    }
 
-.planta {
-    position: relative;
-    width: 100%;
-    z-index: 1;
-}
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--maroon);
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.4);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-back {
+      color: rgba(255,255,255,.7); font-size: 22px;
+      text-decoration: none; transition: color .15s; line-height: 1;
+    }
+    .topbar-back:hover { color: var(--white); }
+    .topbar-logo { flex: 1; display: flex; align-items: center; }
+    .topbar-logo img {
+      height: 30px; width: auto; max-width: 180px; object-fit: contain;
+      filter: brightness(0) invert(1); opacity: .88;
+    }
+    .topbar-badge {
+      background: rgba(165,156,151,.25);
+      border: 1px solid rgba(165,156,151,.4);
+      color: #e8e4e1; font-size: 11px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap;
+    }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 2;
-}
+    /* ── FAB ── */
+    .chatbot-fab {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: var(--maroon); color: var(--white);
+      border: none; border-radius: 50px;
+      padding: 13px 20px; font-family: var(--font-body);
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(109,29,32,.55);
+      display: flex; align-items: center; gap: 8px;
+      transition: all .2s ease;
+    }
+    .chatbot-fab:hover {
+      background: var(--maroon-dk);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(109,29,32,.65);
+      text-decoration: none; color: var(--white);
+    }
 
-.area {
-    position: absolute;
-    cursor: pointer;
-    z-index: 3;
-}
+    /* ── Map ── */
+    .map-wrapper {
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 24px 16px 100px;
+    }
+    .mapa {
+      position: relative;
+      width: 100%; max-width: 740px;
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,.6);
+    }
+    .planta { display: block; width: 100%; height: auto; }
+    .overlay {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; object-fit: fill;
+      opacity: 0; pointer-events: none; z-index: 2;
+    }
 
-.area:hover {
-    border: 2px solid cyan;
-    background: rgba(0,255,255,0.2);
-}
+    /* ── Clickable areas ── */
+    .area {
+      position: absolute; cursor: pointer; z-index: 3;
+      box-sizing: border-box; border-radius: 4px;
+      transition: background .15s, outline .15s;
+    }
+    .area:hover {
+      outline: 2px solid rgba(109,29,32,.9);
+      background: rgba(109,29,32,.22);
+    }
+    .area:focus-visible {
+      outline: 3px solid var(--maroon);
+      background: rgba(109,29,32,.25);
+    }
+    .area::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%);
+      background: var(--maroon); color: var(--white);
+      font-family: var(--font-body); font-size: 11px; font-weight: 600;
+      white-space: nowrap; padding: 5px 10px; border-radius: 6px;
+      pointer-events: none; opacity: 0;
+      transition: opacity .15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .area:hover::after, .area:focus-visible::after { opacity: 1; }
 
-.chatbot-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 50px;
-    background: #00c6ff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 9999;
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
-    transition: 0.3s;
-}
+    /* ── Positions ── */
+    .secretaria { left: 2%;    top: 30%; width: 22%;  height: 4%; }
+    .descanso   { left: 72.6%; top: 1.5%; width: 15%; height: 14.8%; }
+    .biblioteca { left: 32%;   top: 18%; width: 13%;  height: 22%; }
+    .refeitorio { left: 58.6%; top: 22%; width: 12.8%; height: 17.3%; }
+    .sala002    { left: 72.3%; top: 21.8%; width: 9%; height: 17.8%; }
+    .sala001    { left: 58.6%; top: 44.3%; width: 12.7%; height: 17.7%; }
+    .atletica   { left: 72.7%; top: 45.5%; width: 9.5%; height: 17%; }
+    .gabinete   { left: 32%;   top: 55.6%; width: 26%; height: 6.5%; }
+    .central    { left: 14.2%; top: 57.7%; width: 10.8%; height: 9.7%; }
+    .ti         { left: 44%;   top: 71%; width: 11%;  height: 11%; }
+    .tesouraria { left: 14%;   top: 73%; width: 11%;  height: 10%; }
+    .npj        { left: 87.1%; top: 83.7%; width: 11.7%; height: 15.2%; }
 
-.chatbot-btn:hover {
-    background: #0099cc;
-    transform: scale(1.05);
-}
+    /* ── Modal ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,.65);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal-card {
+      background: var(--white); border-radius: 18px;
+      width: 100%; max-width: 360px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      overflow: hidden;
+      transform: translateY(12px); transition: transform .25s ease;
+    }
+    .modal-backdrop.open .modal-card { transform: translateY(0); }
+    .modal-header {
+      background: linear-gradient(135deg, var(--maroon), #8f2629);
+      padding: 22px 22px 18px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .modal-icon {
+      width: 46px; height: 46px; border-radius: 11px;
+      background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 21px; flex-shrink: 0;
+    }
+    .modal-header h2 {
+      font-family: var(--font-heading);
+      font-size: 19px; color: var(--white); margin-bottom: 3px;
+    }
+    .modal-header p { font-size: 12px; color: rgba(255,255,255,.6); }
+    .modal-body { padding: 18px 22px 22px; }
+    .modal-desc { font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 18px; }
+    .modal-close {
+      width: 100%; padding: 12px; background: var(--maroon); color: var(--white);
+      border: none; border-radius: 10px; font-family: var(--font-body);
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      transition: background .15s;
+    }
+    .modal-close:hover { background: var(--maroon-dk); }
+    .modal-ask {
+      width: 100%; padding: 12px; background: transparent; color: var(--maroon);
+      border: 1.5px solid var(--maroon); border-radius: 10px;
+      font-family: var(--font-body); font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none; display: block; text-align: center;
+      margin-top: 8px; transition: all .15s;
+    }
+    .modal-ask:hover { background: var(--maroon); color: var(--white); text-decoration: none; }
 
-/* POSIÇÕES (AGORA VÃO BATER COM A IMAGEM COLORIDA) */
-
-.secretaria { top: 40%; left: 10%; width: 28%; height: 15%; }
-.biblioteca { top: 20%; left: 40%; width: 18%; height: 25%; }
-.central { top: 60%; left: 12%; width: 22%; height: 12%; }
-.tesouraria { top: 75%; left: 15%; width: 15%; height: 10%; }
-
-.gabinete { top: 55%; left: 35%; width: 30%; height: 10%; }
-
-.ti { top: 75%; left: 45%; width: 15%; height: 10%; }
-
-.sala001 { top: 60%; left: 65%; width: 18%; height: 18%; }
-.sala002 { top: 30%; left: 70%; width: 12%; height: 18%; }
-.refeitorio { top: 30%; left: 58%; width: 12%; height: 18%; }
-.atletica { top: 60%; left: 82%; width: 15%; height: 18%; }
-.npj { top: 85%; left: 85%; width: 15%; height: 12%; }
-.descanso { top: 10%; left: 70%; width: 20%; height: 15%; }
-
-/* MODAL */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999; /* Adicione isso */
-}
-
-.hidden {
-    display: none;
-}
-
-.modal-content {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-
-    z-index: 10000; /* Adicione isso */
-}
-</style>
+    /* Legend */
+    .legend {
+      position: fixed; bottom: 88px; left: 16px; z-index: 100;
+      background: rgba(109,29,32,.88); backdrop-filter: blur(6px);
+      border-radius: 10px; padding: 9px 13px;
+      font-size: 11px; color: rgba(255,255,255,.75);
+      pointer-events: none;
+    }
+    .legend strong { color: #e8c8c8; display: block; margin-bottom: 2px; }
+  </style>
 </head>
-
 <body>
 
-<a href="/chat">
-    <button class="chatbot-btn">
-        🤖 Ir para o ChatBot
-    </button>
-</a>
+  <nav class="topbar">
+    <a href="/boas_vindas" class="topbar-back" aria-label="Voltar">‹</a>
+    <div class="topbar-logo"><img src="/static/horizontal_branca.png" alt="Faculdade de Miguel Pereira"></div>
+    <span class="topbar-badge">Tour Interativo</span>
+  </nav>
 
-<div class="mapa">
+  <div class="map-wrapper">
+    <div class="mapa" role="img" aria-label="Mapa interativo do campus">
+      <img src="/static/planta.png" class="planta" alt="Planta baixa do campus">
+      <img src="/static/cores.png"  class="overlay" alt="">
 
-    <!-- IMAGEM BASE -->
-    <img src="/static/planta.png" class="planta">
-
-    <!-- IMAGEM DE CORES (ALINHADA) -->
-    <img src="/static/cores.png" class="overlay">
-
-    <!-- ÁREAS -->
-    <div class="area secretaria" onclick="abrirModal('secretaria')"></div>
-    <div class="area biblioteca" onclick="abrirModal('biblioteca')"></div>
-    <div class="area central" onclick="abrirModal('central')"></div>
-    <div class="area tesouraria" onclick="abrirModal('tesouraria')"></div>
-    <div class="area gabinete" onclick="abrirModal('gabinete')"></div>
-    <div class="area ti" onclick="abrirModal('ti')"></div>
-    <div class="area sala001" onclick="abrirModal('sala001')"></div>
-    <div class="area sala002" onclick="abrirModal('sala002')"></div>
-    <div class="area refeitorio" onclick="abrirModal('refeitorio')"></div>
-    <div class="area atletica" onclick="abrirModal('atletica')"></div>
-    <div class="area npj" onclick="abrirModal('npj')"></div>
-    <div class="area descanso" onclick="abrirModal('descanso')"></div>
-
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
-    <div class="modal-content">
-        <h2 id="titulo"></h2>
-        <p id="descricao"></p>
-        <button onclick="fecharModal()">Fechar</button>
+      <div class="area secretaria" role="button" tabindex="0" data-label="Secretaria"         aria-label="Secretaria"         onclick="abrir('secretaria')"  onkeydown="keyOpen(event,'secretaria')"></div>
+      <div class="area descanso"   role="button" tabindex="0" data-label="Sala de Descanso"   aria-label="Sala de Descanso"   onclick="abrir('descanso')"    onkeydown="keyOpen(event,'descanso')"></div>
+      <div class="area biblioteca" role="button" tabindex="0" data-label="Biblioteca"         aria-label="Biblioteca"         onclick="abrir('biblioteca')"  onkeydown="keyOpen(event,'biblioteca')"></div>
+      <div class="area refeitorio" role="button" tabindex="0" data-label="Refeitório"         aria-label="Refeitório"         onclick="abrir('refeitorio')"  onkeydown="keyOpen(event,'refeitorio')"></div>
+      <div class="area sala002"    role="button" tabindex="0" data-label="Sala 002"           aria-label="Sala 002"           onclick="abrir('sala002')"     onkeydown="keyOpen(event,'sala002')"></div>
+      <div class="area sala001"    role="button" tabindex="0" data-label="Sala 001"           aria-label="Sala 001"           onclick="abrir('sala001')"     onkeydown="keyOpen(event,'sala001')"></div>
+      <div class="area atletica"   role="button" tabindex="0" data-label="Atlética / FAMIPE"  aria-label="Atlética / FAMIPE"  onclick="abrir('atletica')"   onkeydown="keyOpen(event,'atletica')"></div>
+      <div class="area gabinete"   role="button" tabindex="0" data-label="Gabinete"           aria-label="Gabinete"           onclick="abrir('gabinete')"    onkeydown="keyOpen(event,'gabinete')"></div>
+      <div class="area central"    role="button" tabindex="0" data-label="Central de Estágio" aria-label="Central de Estágio" onclick="abrir('central')"     onkeydown="keyOpen(event,'central')"></div>
+      <div class="area ti"         role="button" tabindex="0" data-label="T.I"                aria-label="T.I"                onclick="abrir('ti')"          onkeydown="keyOpen(event,'ti')"></div>
+      <div class="area tesouraria" role="button" tabindex="0" data-label="Tesouraria"         aria-label="Tesouraria"         onclick="abrir('tesouraria')"  onkeydown="keyOpen(event,'tesouraria')"></div>
+      <div class="area npj"        role="button" tabindex="0" data-label="Recepção do NPJ"    aria-label="Recepção do NPJ"    onclick="abrir('npj')"         onkeydown="keyOpen(event,'npj')"></div>
     </div>
-</div>
+  </div>
 
-<script>
-function abrirModal(local) {
+  <div class="legend" aria-hidden="true">
+    <strong>Dica</strong>
+    Clique em qualquer área<br>para ver mais informações
+  </div>
 
+  <a href="/chat" class="chatbot-fab">🤖 Assistente</a>
+
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true"
+       aria-labelledby="modal-titulo" aria-describedby="modal-desc">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-icon" id="modal-icon">📍</div>
+        <div>
+          <h2 id="modal-titulo"></h2>
+          <p  id="modal-categoria"></p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" id="modal-desc"></p>
+        <button class="modal-close" onclick="fechar()">Fechar</button>
+        <a href="/chat" class="modal-ask">🤖 Perguntar ao Assistente</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
     const dados = {
-        secretaria: ["Secretaria", "Atendimento ao aluno"],
-        biblioteca: ["Biblioteca", "Estudos"],
-        central: ["Central de Estágio", "Suporte estágio"],
-        tesouraria: ["Tesouraria", "Financeiro"],
-        ti: ["T.I", "Suporte técnico"],
-        sala001: ["Sala 001", "Aulas"],
-        sala002: ["Sala 002", "Aulas"],
-        refeitorio: ["Refeitório", "Alimentação"],
-        atletica: ["Atlética", "Eventos"],
-        npj: ["NPJ", "Jurídico"],
-        descanso: ["Descanso", "Relaxamento"],
-        gabinete: ["Gabinete", "Professores"]
+      secretaria: { icon:"📋", titulo:"Secretaria",               categoria:"Atendimento ao Aluno",   desc:"Responsável pelo atendimento ao aluno, emissão de documentos, registros acadêmicos e processos de matrícula. Horário de atendimento: seg–sex, 8h–18h." },
+      descanso:   { icon:"😌", titulo:"Sala de Descanso",         categoria:"Área de Convivência",    desc:"Espaço para relaxamento e descanso entre as aulas. Conta com poltronas e iluminação suave para recarregar as energias." },
+      biblioteca: { icon:"📚", titulo:"Biblioteca Acadêmica",     categoria:"Acervo & Pesquisa",      desc:"Acervo de livros, periódicos e bases de dados digitais. Oferece cabines de estudo individual e salões de grupo. Empréstimo com carteirinha." },
+      refeitorio: { icon:"🍽️", titulo:"Refeitório",               categoria:"Alimentação",            desc:"Espaço de alimentação com refeições variadas, lanches e bebidas. Atende alunos, professores e funcionários. Almoço 11h–14h, lanche 16h–18h." },
+      sala002:    { icon:"🖥️", titulo:"Sala 002",                 categoria:"Sala de Aula",           desc:"Sala de aula com capacidade para 40 alunos, projetor, lousa digital e ar-condicionado. Consulte seu horário para verificar disponibilidade." },
+      sala001:    { icon:"🖊️", titulo:"Sala 001",                 categoria:"Sala de Aula",           desc:"Sala de aula com capacidade para 40 alunos, projetor e boa iluminação natural. Verifique no portal ou com a secretaria seu horário de uso." },
+      atletica:   { icon:"🏆", titulo:"Atlética / FAMIPE Workspace", categoria:"Esportes & Coworking", desc:"Centro de eventos esportivos, atividades culturais e coworking para alunos. Organiza campeonatos, festas e ações de integração." },
+      gabinete:   { icon:"👨‍🏫", titulo:"Gabinete dos Professores", categoria:"Orientação Acadêmica",  desc:"Local de atendimento e orientação dos professores fora de sala. Verifique o horário de cada docente na secretaria ou no portal do aluno." },
+      central:    { icon:"💼", titulo:"Central de Estágio",       categoria:"Suporte Profissional",   desc:"Responsável pela captação de vagas, orientação sobre documentação e acompanhamento dos alunos durante o estágio obrigatório." },
+      ti:         { icon:"🖥️", titulo:"Tecnologia da Informação", categoria:"Suporte Técnico",        desc:"Suporte técnico, manutenção de equipamentos e infraestrutura de rede. Atende problemas com acesso ao portal, Wi-Fi e equipamentos do campus." },
+      tesouraria: { icon:"💰", titulo:"Tesouraria",               categoria:"Financeiro",             desc:"Responsável pelo financeiro: pagamento de mensalidades, emissão de boletos, negociação de débitos e controle de bolsas e descontos." },
+      npj:        { icon:"⚖️", titulo:"Recepção do NPJ",          categoria:"Núcleo de Prática Jurídica", desc:"Recepção do NPJ, onde alunos do curso de Direito realizam atendimentos jurídicos supervisionados à população." }
     };
 
-    document.getElementById("titulo").innerText = dados[local][0];
-    document.getElementById("descricao").innerText = dados[local][1];
-
-    document.getElementById("modal").classList.remove("hidden");
-}
-
-function fecharModal() {
-    document.getElementById("modal").classList.add("hidden");
-}
-</script>
-
+    function abrir(local) {
+      var d = dados[local];
+      document.getElementById('modal-icon').textContent     = d.icon;
+      document.getElementById('modal-titulo').textContent   = d.titulo;
+      document.getElementById('modal-categoria').textContent = d.categoria;
+      document.getElementById('modal-desc').textContent     = d.desc;
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal').querySelector('.modal-close').focus();
+    }
+    function fechar() {
+      document.getElementById('modal').classList.remove('open');
+    }
+    function keyOpen(e, local) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(local); }
+    }
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) fechar();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') fechar();
+    });
+  </script>
 </body>
 </html>
