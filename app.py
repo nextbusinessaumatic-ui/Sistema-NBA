@@ -362,6 +362,8 @@ def chat():
                 resposta = f"Seu curso é {aluno['Curso']}"
             elif "matrícula" in p or "matricula" in p:
                 resposta = f"Status da matrícula: {aluno['Matrícula Ativa']}"
+            elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
+                resposta = f"status da matrícula: {aluno['Matrícula Ativa']}"
             else:
                 resposta = "Não entendi. Tente perguntar sobre: sala, horário, professor, mensalidade, pendências ou curso."
             session["historico"].append({"role": "user", "content": pergunta})
@@ -371,7 +373,7 @@ def chat():
 
     historico = session.get("historico", [])
 
-<<<<<<< HEAD
+
     def render_msgs():
         html = ""
         for msg in historico:
@@ -380,13 +382,8 @@ def chat():
             else:
                 html += f'<div class="msg-row bot-row"><div class="bubble-avatar">🤖</div><div class="bubble bot-bubble">{msg["content"]}</div></div>'
         return html or '<div class="empty-state">👋 Olá! Pergunte sobre sua matrícula, sala, horário, pendências ou mensalidade.</div>'
-=======
-        elif "matrícula ativa" in pergunta or "matricula ativa" in pergunta:
-            resposta = f"status da matrícula: {aluno['Matrícula Ativa']}"
-            
-        else:
-            resposta = "Desculpe, não entendi sua pergunta."
->>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
+
+
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
