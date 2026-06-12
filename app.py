@@ -90,7 +90,6 @@ def login():
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<<<<<<< HEAD
   <title>Login · Portal do Aluno · FAMIPE</title>
   {BASE_HEAD}
   <style>
@@ -108,19 +107,13 @@ def login():
       transform: scale(1.05);
       z-index: 0;
     }}
-    .login-card {{ width: 100%; max-width: 400px; position: relative; z-index: 1; }}
-=======
-    <title>Sistema NBA</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
->>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
+    .login-card {{
+       width: 100%; 
+       max-width: 400px; 
+       position: relative; 
+       z-index: 1; 
+       }}
+
 
     .login-header {{
       background: linear-gradient(160deg, #6d1d20, #8f2629);

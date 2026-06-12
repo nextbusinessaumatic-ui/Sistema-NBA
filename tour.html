@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<<<<<<< HEAD
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tour · Campus · FAMIPE</title>
@@ -225,16 +225,16 @@
       <div class="area ti"         role="button" tabindex="0" data-label="T.I"                aria-label="T.I"                onclick="abrir('ti')"          onkeydown="keyOpen(event,'ti')"></div>
       <div class="area tesouraria" role="button" tabindex="0" data-label="Tesouraria"         aria-label="Tesouraria"         onclick="abrir('tesouraria')"  onkeydown="keyOpen(event,'tesouraria')"></div>
       <div class="area npj"        role="button" tabindex="0" data-label="Recepção do NPJ"    aria-label="Recepção do NPJ"    onclick="abrir('npj')"         onkeydown="keyOpen(event,'npj')"></div>
-=======
+
 <meta charset="UTF-8">
 <title>Mapa Interativo</title>
 <style>
 
-body {
+body {{
     margin: 0;
     background: #2c5364;
     font-family: Arial;
-}
+}}
 
 .mapa {
     position: relative;
@@ -290,9 +290,9 @@ body {
 }
 .area:hover::after { opacity: 1; }
 
-/* ============================================================
+
    POSIÇÕES — calculadas por análise de pixel nas screenshots
-   ============================================================ */
+
 .secretaria  { left:  2%; top: 30%; width: 22%; height:  4%; }
 .descanso    { left: 72.6%; top: 1.5%; width: 15%; height: 14.8%; }
 .biblioteca  { left: 32%; top: 18%; width: 13%; height: 22%; }
@@ -387,11 +387,11 @@ body {
         <h2 id="titulo"></h2>
         <p  id="descricao"></p>
         <button onclick="fechar()">Fechar</button>
->>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
+
     </div>
   </div>
 
-<<<<<<< HEAD
+
   <div class="legend" aria-hidden="true">
     <strong>Dica</strong>
     Clique em qualquer área<br>para ver mais informações
@@ -455,7 +455,7 @@ body {
       if (e.key === 'Escape') fechar();
     });
   </script>
-=======
+
 <script>
 const dados = {
     secretaria: ["Secretaria",                "Atendimento ao aluno, documentos e matrículas."],
@@ -487,6 +487,6 @@ document.getElementById("modal").addEventListener("click", e => {
 });
 </script>
 
->>>>>>> 843d74490bec1f455deeb2f992ebed222096be74
+
 </body>
 </html>
