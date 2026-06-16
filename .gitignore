@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+alunos_matricula.xlsx
+~$*.xlsx
+.env
